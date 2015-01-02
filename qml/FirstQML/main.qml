@@ -1,66 +1,53 @@
 import QtQuick 2.0
 
 Rectangle {
-    id: page
-    width: 320
-    height: 480
-    color: "lightgray"
+    id: screen
+    width: 490
+    height: 720
 
-    Text {
-        id: helloText
-        text: "Hello World"
-        y: 30
-        anchors.horizontalCenter: page.horizontalCenter
-        font.pointSize: 24
-        font.bold: true
+    SystemPalette{
+        id: activePalette
+    }
 
-        MouseArea{
-            id: mouseArea
+    Item{
+        width: parent.width
+        anchors{
+            top: parent.top
+            bottom: toolBar.top
+        }
+
+        Image{
+            id: background
             anchors.fill: parent
-        }
-
-        states: State{
-            name: "down"
-            when: mouseArea.pressed === true
-            PropertyChanges{
-                target: helloText
-                y: 200
-                rotation: 360
-                color: "white"
-            }
-        }
-
-        transitions: Transition{
-            from: ""
-            to: "down"
-            reversible: true
-            ParallelAnimation{
-                NumberAnimation{
-                    properties: "y,rotation"
-                    duration: 2000
-                    easing.type: Easing.InOutQuad
-                }
-                ColorAnimation{
-                    duration: 500
-                }
-            }
+            source: "background.jpg"
+            fillMode: Image.PreserveAspectCrop
         }
     }
 
-    Grid{
-        id: colorPicker
-        x:4
-        anchors.bottom: page.bottom
-        anchors.bottomMargin: 4
-        rows: 2
-        columns: 3
-        spacing: 3
+    Rectangle{
+        id: toolBar
+        width: parent.width
+        height: 30
+        color: activePalette.window
+        anchors. bottom: screen.bottom
 
-        Cell { cellColor: "red"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "green"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "blue"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "yellow"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "steelblue"; onClicked: helloText.color = cellColor }
-        Cell { cellColor: "black"; onClicked: helloText.color = cellColor }
+        Button{
+            anchors{
+                left: parent.left
+                verticalCenter: parent.verticalCenter
+            }
+
+            text: "New Game"
+            onClicked: console.log("This doesn't do anything yet...")
+        }
+
+        Text{
+            id: score
+            anchors{
+                right: parent.right
+                verticalCenter: parent.verticalCenter
+            }
+            text: "Score: Who knows?"
+        }
     }
 }
